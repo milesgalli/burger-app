@@ -16,20 +16,19 @@ function createQmarks(num){
 
 function translateSql(obj){
  let arr = []; 
- for (const key in obj) {
-  if (Object.hasOwnProperty.call(cb,CryptoKey)) {
-    if (typeof value === "string" && value.indexOf("")>=0) {
+ for (let key in obj) {
+     let value= obj[key]; 
+    if (typeof value === "string" && value.indexOf(" ")>=0) {
      value = "'" + value + "'";
      
     }
    arr.push(key + "=" + value)
-  } 
  }
  return arr.toString(); 
 }
 
 
-const orm = {
+let orm = {
   selectAll: function (table, cb) {
     let dbQuery = "SELECT * FROM " + table + ";";
 
@@ -40,6 +39,7 @@ const orm = {
       cb(res);
     });
   },
+
   insertOne: function (table, cols, vals, cb) {
     let dbQuery =
       "INSERT INTO " +
@@ -50,9 +50,12 @@ const orm = {
       "VALUES (" +
       createQmarks(vals.length) +
       ") ";
-    // console.log(dbQuery);
 
-    connection.query(dbQuery, function (err, res) {
+
+     console.log(dbQuery);
+
+    connection.query(dbQuery,vals, function (err, res) {
+
       if (err) {
         throw err;
       }
@@ -61,7 +64,9 @@ const orm = {
   },
   updateOne: function (table, objColVals, condition, cb) {
     let dbQuery =
-      "UPDATE" + table + "SET" + translateSql(objColVals) + "WHERE" + condition;
+      "UPDATE " +  table + " SET " + translateSql(objColVals) + " WHERE " + condition;
+
+      console.log(dbQuery);
 
     connection.query(dbQuery, function (err, res) {
       if (err) {
@@ -72,8 +77,9 @@ const orm = {
   },
 
   deleteOne: function (table, condition, cb) {
-    let dbQuery = "DELETE FROM" + table + "WHERE" + condition;
-
+    let dbQuery = "DELETE FROM " + table + " WHERE " + condition;
+console.log(dbQuery);
+console.log(condition);
     connection.query(dbQuery, function (err, res) {
       if (err) {
         throw err;
