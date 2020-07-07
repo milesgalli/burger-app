@@ -4,9 +4,12 @@ connection = mysql.createConnection({
  host: "localhost", 
  user: "root", 
  password: "root", 
- database: "burgers_db"
+ database: "burgers_db",
+ use_env_variable: "JAWSDB_URL",
+  dialect: "mysql"
 
-});
+}
+);
 
 connection.connect(function(err) {
  if (err) {
